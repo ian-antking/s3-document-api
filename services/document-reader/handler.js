@@ -1,3 +1,1 @@
-exports.run = () => {
-  return { statusCode: 200 }
-}
+exports.run = () => ({ statusCode: 200 });

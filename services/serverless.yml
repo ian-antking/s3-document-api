@@ -11,7 +11,8 @@ provider:
     - Effect: Allow
       Action:
         - s3:PutObject
-      Resource: arn:aws:s3:::${self:custom.appName}
+      Resource: arn:aws:s3:::${self:custom.appName}/*
+
 
 custom:
   appName: ${opt:stage, 'dev'}-s3-document-api
@@ -21,7 +22,7 @@ resources:
     DocumentBucket:
       Type: AWS::S3::Bucket
       Properties:
-          BucketName: ${self:custom.appName}-document-bucket
+          BucketName: ${self:custom.appName}
           AccessControl: Private
           CorsConfiguration:
             CorsRules:
@@ -50,7 +51,7 @@ functions:
     handler: document-reader/handler.run 
     events:
       - httpApi:
-          path: /document
+          path: /document/{id}
           method: get   
     environment:
       BUCKET_NAME: ${self:custom.appName}
