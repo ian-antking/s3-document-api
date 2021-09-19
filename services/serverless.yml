@@ -51,6 +51,6 @@ functions:
     events:
       - httpApi:
           path: /document
-          method: post   
+          method: get   
     environment:
       BUCKET_NAME: ${self:custom.appName}
