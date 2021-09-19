@@ -1,0 +1,12 @@
+{
+  "name": "document-reader",
+  "version": "1.0.0",
+  "description": "Retrieves documents from S3 and returns them as JSON.",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

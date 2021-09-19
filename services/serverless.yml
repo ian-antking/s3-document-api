@@ -45,3 +45,12 @@ functions:
           method: post   
     environment:
       BUCKET_NAME: ${self:custom.appName}
+  readDocument:
+    name: ${self:custom.appName}-read-document 
+    handler: document-reader/handler.run 
+    events:
+      - httpApi:
+          path: /document
+          method: post   
+    environment:
+      BUCKET_NAME: ${self:custom.appName}
