@@ -11,6 +11,7 @@ provider:
     - Effect: Allow
       Action:
         - s3:PutObject
+        - s3:getObject
       Resource: arn:aws:s3:::${self:custom.appName}/*
 
 
@@ -51,7 +52,7 @@ functions:
     handler: document-reader/handler.run 
     events:
       - httpApi:
-          path: /document/{id}
+          path: /document/{key}
           method: get   
     environment:
       BUCKET_NAME: ${self:custom.appName}
