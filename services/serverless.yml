@@ -20,6 +20,7 @@ provider:
       Action:
         - s3:PutObject
         - s3:getObject
+        - s3:putObjectTagging
       Resource: arn:aws:s3:::${self:custom.appName}/*
 
 
