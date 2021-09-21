@@ -1,19 +1,20 @@
 service: s3-document-api
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
-  name: 'aws'
+  name: "aws"
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
   region: eu-west-2
+
   httpApi:
     cors: true
     authorizers:
       customAuthorizer:
         type: request
         functionName: authorizeRequest
-        payloadVersion: '2.0'
+        payloadVersion: "2.0"
 
   iamRoleStatements:
     - Effect: Allow
@@ -23,53 +24,51 @@ provider:
         - s3:putObjectTagging
       Resource: arn:aws:s3:::${self:custom.appName}/*
 
-
 custom:
   appName: ${opt:stage, 'dev'}-s3-document-api
 
 package:
   individually: true
-  
+
 resources:
   Resources:
     DocumentBucket:
       Type: AWS::S3::Bucket
       Properties:
-          BucketName: ${self:custom.appName}
-          AccessControl: Private
-          CorsConfiguration:
-            CorsRules:
+        BucketName: ${self:custom.appName}
+        AccessControl: Private
+        CorsConfiguration:
+          CorsRules:
             - AllowedMethods:
-              - GET
-              - PUT
-              - POST
-              - HEAD
+                - GET
+                - PUT
+                - POST
+                - HEAD
               AllowedOrigins:
-              - "*"
+                - "*"
               AllowedHeaders:
-              - "*"
+                - "*"
 
 functions:
-
   writeDocument:
-    name: ${self:custom.appName}-write-document 
-    handler: document-writer/handler.run 
+    name: ${self:custom.appName}-write-document
+    handler: document-writer/handler.run
     events:
       - httpApi:
           path: /document
-          method: post  
+          method: post
           authorizer:
             name: customAuthorizer
     environment:
       BUCKET_NAME: ${self:custom.appName}
 
   readDocument:
-    name: ${self:custom.appName}-read-document 
-    handler: document-reader/handler.run 
+    name: ${self:custom.appName}-read-document
+    handler: document-reader/handler.run
     events:
       - httpApi:
           path: /document/{key}
-          method: get   
+          method: get
     environment:
       BUCKET_NAME: ${self:custom.appName}
 
@@ -77,4 +76,3 @@ functions:
     handler: request-authorizer/handler.run
     environment:
       PASSWORD: password
-    
