@@ -76,5 +76,5 @@ functions:
   authorizeRequest:
     handler: request-authorizer/handler.run
     environment:
-      PASSWORD: ${opt:password, 'password'}
+      PASSWORD: password
     
