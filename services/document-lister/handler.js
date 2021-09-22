@@ -4,14 +4,13 @@ const S3DocumentReposity = require('./src/repository/s3-document-repository');
 const s3 = new AWS.S3();
 const s3DocumentRepository = new S3DocumentReposity(s3);
 
-exports.run = async (event) => {
-  const { key } = event.pathParameters;
-
+exports.run = async () => {
   try {
-    const document = await s3DocumentRepository.get(key);
+    const documents = await s3DocumentRepository.list();
 
-    return { statusCode: 200, body: JSON.stringify({ document, key }) };
+    return { statusCode: 200, body: JSON.stringify({ documents }) };
   } catch (err) {
+    console.log(err);
     return { statusCode: err.statusCode, Body: JSON.stringify({ error: err.code }) };
   }
 };

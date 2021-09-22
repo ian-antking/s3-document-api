@@ -9,18 +9,9 @@ module.exports = class S3DocumentReposity {
       Bucket: process.env.BUCKET_NAME,
     };
 
-    try {
-      const response = await this.s3.getObject(params).promise();
-      const data = JSON.parse(response.Body.toString('utf-8'));
+    const response = await this.s3.getObject(params).promise();
+    const data = JSON.parse(response.Body.toString('utf-8'));
 
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      return data;
-    } catch (err) {
-      const { code } = err;
-      throw new Error(code);
-    }
+    return data;
   }
 };

@@ -12,11 +12,7 @@ module.exports = class S3DocumentReposity {
       Tagging: `name=${name}`,
     };
 
-    try {
-      await this.s3.putObject(object).promise();
-      return object.Key;
-    } catch (err) {
-      throw new Error(err);
-    }
+    await this.s3.putObject(object).promise();
+    return object.Key;
   }
 };
