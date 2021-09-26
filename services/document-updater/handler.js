@@ -18,8 +18,14 @@ exports.run = async (event) => {
   try {
     const documentKey = await s3DocumentRepository.create(value, key);
 
-    return { statusCode: 200, body: JSON.stringify({ key: documentKey, data: value }) };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ key: documentKey, data: value }),
+    };
   } catch (err) {
-    return { statusCode: err.statusCode, Body: JSON.stringify({ error: err.code }) };
+    return {
+      statusCode: err.statusCode,
+      Body: JSON.stringify({ error: err.code }),
+    };
   }
 };

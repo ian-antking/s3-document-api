@@ -4,7 +4,7 @@ module.exports = class S3DocumentReposity {
     this.keyGen = keyGen;
   }
 
-  async create({ document, name }, key ) {
+  async create({ document, name }, key) {
     const object = {
       Key: key || this.keyGen(),
       Bucket: process.env.BUCKET_NAME,
