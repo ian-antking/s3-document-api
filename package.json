@@ -1,0 +1,25 @@
+{
+  "name": "s3-document-api",
+  "version": "1.0.0",
+  "description": "Lambda functions and endpoints for S3 document creation and retrieval.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ian-antking/s3-document-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ian-antking/s3-document-api/issues"
+  },
+  "homepage": "https://github.com/ian-antking/s3-document-api#readme",
+  "devDependencies": {
+    "@serverless/eslint-config": "^3.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
+  }
+}
