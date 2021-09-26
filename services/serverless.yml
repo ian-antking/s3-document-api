@@ -1,4 +1,5 @@
 service: s3-document-api
+variablesResolutionMode: 20210326
 
 frameworkVersion: "2"
 
@@ -91,7 +92,19 @@ functions:
     environment:
       BUCKET_NAME: ${self:custom.appName}
 
+  updateDocument:
+    name: ${self:custom.appName}-update-document
+    handler: document-updater/handler.run
+    events:
+      - httpApi:
+          path: /document/{key}
+          method: put
+          authorizer:
+            name: customAuthorizer
+    environment:
+      BUCKET_NAME: ${self:custom.appName}
+
   authorizeRequest:
     handler: request-authorizer/handler.run
     environment:
-      PASSWORD: password
+      PASSWORD: ${ssm:/s3-document-api/${opt:stage}/key}
