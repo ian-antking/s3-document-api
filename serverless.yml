@@ -60,7 +60,7 @@ resources:
 functions:
   writeDocument:
     name: ${self:custom.appName}-write-document
-    handler: document-writer/handler.run
+    handler: services/document-writer/handler.run
     events:
       - httpApi:
           path: /document
@@ -69,10 +69,12 @@ functions:
             name: customAuthorizer
     environment:
       BUCKET_NAME: ${self:custom.appName}
+    layers:
+      - {Ref: CommonLibsLambdaLayer}
 
   listDocumens:
     name: ${self:custom.appName}-list-document
-    handler: document-lister/handler.run
+    handler: services/document-lister/handler.run
     events:
       - httpApi:
           path: /documents
@@ -81,20 +83,24 @@ functions:
             name: customAuthorizer
     environment:
       BUCKET_NAME: ${self:custom.appName}
+    layers:
+      - {Ref: CommonLibsLambdaLayer}
 
   readDocument:
     name: ${self:custom.appName}-read-document
-    handler: document-reader/handler.run
+    handler: services/document-reader/handler.run
     events:
       - httpApi:
           path: /document/{key}
           method: get
     environment:
       BUCKET_NAME: ${self:custom.appName}
+    layers:
+      - {Ref: CommonLibsLambdaLayer}
 
   updateDocument:
     name: ${self:custom.appName}-update-document
-    handler: document-updater/handler.run
+    handler: services/document-updater/handler.run
     events:
       - httpApi:
           path: /document/{key}
@@ -103,8 +109,17 @@ functions:
             name: customAuthorizer
     environment:
       BUCKET_NAME: ${self:custom.appName}
+    layers:
+      - {Ref: CommonLibsLambdaLayer}
 
   authorizeRequest:
-    handler: request-authorizer/handler.run
+    handler: services/request-authorizer/handler.run
     environment:
       PASSWORD: ${ssm:/s3-document-api/${opt:stage}/key}
+
+layers:
+  commonLibs:
+    name: ${opt:stage, 'dev'}-${self:custom.appName}-common-libs
+    path: layers/common-libs
+    compatibleRuntimes:
+      - nodejs12.x

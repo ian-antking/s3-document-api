@@ -1,12 +1,11 @@
 module.exports = class S3DocumentReposity {
-  constructor(s3Client, keyGen) {
+  constructor(s3Client) {
     this.s3 = s3Client;
-    this.keyGen = keyGen;
   }
 
   async create({ document, name }, key) {
     const object = {
-      Key: key || this.keyGen(),
+      Key: key,
       Bucket: process.env.BUCKET_NAME,
       Body: JSON.stringify(document),
       Tagging: `name=${name}`,

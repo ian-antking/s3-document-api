@@ -1,10 +1,9 @@
 const AWS = require('aws-sdk');
-const uuid = require('uuid');
 const createDocumentSchema = require('./src/schema/create-document-request');
 const S3DocumentReposity = require('./src/repository/s3-document-repository');
 
 const s3 = new AWS.S3();
-const s3DocumentRepository = new S3DocumentReposity(s3, uuid.v4);
+const s3DocumentRepository = new S3DocumentReposity(s3);
 
 exports.run = async (event) => {
   const { key } = event.pathParameters;
