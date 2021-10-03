@@ -8,9 +8,9 @@ exports.run = async (event) => {
   const { key } = event.pathParameters;
 
   try {
-    const document = await s3DocumentRepository.get(key);
+    const data = await s3DocumentRepository.get(key);
 
-    return { statusCode: 200, body: JSON.stringify({ document, key }) };
+    return { statusCode: 200, body: JSON.stringify(data) };
   } catch (err) {
     return { statusCode: err.statusCode, Body: JSON.stringify({ error: err.code }) };
   }

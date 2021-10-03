@@ -9,9 +9,15 @@ module.exports = class S3DocumentReposity {
       Bucket: process.env.BUCKET_NAME,
     };
 
-    const response = await this.s3.getObject(params).promise();
-    const data = JSON.parse(response.Body.toString('utf-8'));
+    const { TagSet } = await this.s3.getObjectTagging(params).promise();
 
-    return data;
+    const response = await this.s3.getObject(params).promise();
+    const document = JSON.parse(response.Body.toString('utf-8'));
+
+    const nameTag = TagSet.find((tag) => tag.Key === 'name');
+
+    const name = nameTag.Value;
+
+    return { document, name };
   }
 };
